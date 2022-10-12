@@ -1,0 +1,26 @@
+apiVersion: projectcalico.org/v3
+kind: GlobalNetworkPolicy
+metadata:
+  name: deny-instance-metadata
+spec:
+  order: 100
+  types:
+  - Egress
+  egress:
+# allow all egress traffic except destination to 169.254.169.254/32
+  - action: Deny
+    protocol: TCP
+    destination:
+      nets:
+        - 169.254.169.254/32
+  - action: Deny
+    protocol: UDP
+    destination:
+      nets:
+        - 169.254.169.254/32
+  - action: Deny
+    protocol: ICMP
+    destination:
+      nets:
+        - 169.254.169.254/32
+  - action: Allow
